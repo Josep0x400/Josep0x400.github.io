@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="contenedor-resultados">
+        <h1>Resultados de Búsqueda</h1>
+        <a href="index.html" class="boton-volver">← Volver a buscar</a>
+        
+        <div id="resultados" class="grid-libros"></div>
+        
+        <div class="controles-paginacion">
+            <button id="btn-prev">Anterior</button>
+            <span id="info-paginacion"></span>
+            <button id="btn-next">Siguiente</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <!-- carga global “supabase” -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+/* Estilos base */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+/* Contenedores principales */
+.contenedor-principal, .contenedor-filtros, .contenedor-resultados {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* Barra de búsqueda */
+.barra-busqueda {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 12px 20px;
+    border: 2px solid #3498db;
+    border-radius: 25px;
+    width: 300px;
+    font-size: 16px;
+}
+
+/* Botones */
+button, .boton-primario {
+    background: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover, .boton-primario:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+.boton-secundario {
+    background: #95a5a6;
+    margin-left: 15px;
+}
+
+.boton-flotante {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    text-decoration: none;
+}
+
+/* Tarjetas de libros */
+.grid-libros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.libro-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.libro-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Filtros */
+.card-filtros {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.grupo-filtro {
+    margin-bottom: 25px;
+}
+
+.grupo-filtro label {
+    display: block;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    background: white;
+}
+
+/* Paginación */
+.controles-paginacion {
+    text-align: center;
+    margin: 30px 0;
+}
+
+/* Imagen principal */
+.imagen-principal {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.imagen-principal img {
+    width: 80%;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Centrar todo el contenido dentro de .contenedor-principal */
+.contenedor-principal {
+    text-align: center;
+  }
+  
