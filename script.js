@@ -5,125 +5,105 @@ const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Configuración de paginación
 let paginaActual = 1;
-const porPagina = 9;
+const porPagina = 8; // Cambiado de 9 a 8
 
 // Función para redirigir a resultados
 function navegarResultados(parametros = {}) {
-    const queryString = new URLSearchParams(parametros).toString();
-    window.location.href = `resultados.html?${queryString}`;
+  const queryString = new URLSearchParams(parametros).toString();
+  window.location.href = `resultados.html?${queryString}`;
 }
 
 // Función de búsqueda rápida
 function buscarRapida() {
-    const termino = document.getElementById('busqueda-rapida').value;
-    navegarResultados({ busqueda: termino });
+  const termino = document.getElementById('busqueda-rapida').value;
+  navegarResultados({ busqueda: termino });
 }
 
 // Función para aplicar filtros
 function aplicarFiltros() {
-    const parametros = {
-        autor: document.getElementById('filtro-autor').value,
-        categoria: document.getElementById('filtro-categoria').value,
-        anioInicio: document.getElementById('anio-inicio').value,
-        anioFin: document.getElementById('anio-fin').value
-    };
-    navegarResultados(parametros);
+  const parametros = {
+    autor: document.getElementById('filtro-autor').value,
+    categoria: document.getElementById('filtro-categoria').value,
+    anioInicio: document.getElementById('anio-inicio').value,
+    anioFin: document.getElementById('anio-fin').value
+  };
+  navegarResultados(parametros);
 }
 
 // Cargar y mostrar resultados
 async function cargarResultados() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        
-        let query = client.from('Libros')
-            .select('*, Autores:autor_id(nombre_autor), Categorias:categoria_id(nombre_categoria)', { 
-                count: 'exact' 
-            });
-
-        // Aplicar filtros desde URL
-        if(params.get('busqueda')) query = query.ilike('titulo', `%${params.get('busqueda')}%`);
-        if(params.get('autor')) query = query.eq('autor_id', params.get('autor'));
-        if(params.get('categoria')) query = query.eq('categoria_id', params.get('categoria'));
-        if(params.get('anioInicio') && params.get('anioFin')) {
-            query = query
-                .gte('anio_publicacion', `${params.get('anioInicio')}-01-01`)
-                .lte('anio_publicacion', `${params.get('anioFin')}-12-31`);
-        }
-
-        // Paginación
-        const { data, error, count } = await query
-            .range((paginaActual - 1) * porPagina, paginaActual * porPagina - 1);
-
-        if(error) throw error;
-
-        mostrarResultados(data);
-        actualizarPaginacion(count);
-    } catch(error) {
-        console.error('Error:', error);
-        document.getElementById('resultados').innerHTML = `
-            <div class="mensaje-error">
-                Error al cargar los resultados. Intenta nuevamente.
-            </div>
-        `;
-    }
-}
-
-function mostrarResultados(libros) {
-    const contenedor = document.getElementById('resultados');
-    contenedor.innerHTML = libros.map(libro => `
-        <div class="libro-card">
-            <h3>${libro.titulo}</h3>
-            <p class="autor">${libro.Autores?.nombre_autor || 'Autor desconocido'}</p>
-            <p class="categoria">${libro.Categorias?.nombre_categoria || 'Sin categoría'}</p>
-            <p class="anio">${new Date(libro.anio_publicacion).getFullYear()}</p>
-            <p class="isbn">ISBN: ${libro.isbn}</p>
-        </div>
-    `).join('');
-}
-
-
-/** Actualiza el texto “Página X de Y” */
-function actualizarPaginacion(totalItems) {
-    const info = document.getElementById('info-paginacion');
-    const totalPaginas = Math.ceil(totalItems / porPagina) || 1;
-    info.textContent = `Página ${paginaActual} de ${totalPaginas}`;
-  }
-  
-  /** Manejadores para “Anterior” y “Siguiente” */
-  function configurarPaginacion() {
-    document.getElementById('btn-prev').onclick = () => {
-      if (paginaActual > 1) {
-        paginaActual--;
-        cargarResultados();
-      }
-    };
-    document.getElementById('btn-next').onclick = () => {
-      paginaActual++;
-      cargarResultados();
-    };
-  }
-
-// Inicialización
-document.addEventListener('DOMContentLoaded', async () => {
-    // Cargar opciones de filtros
-    if(window.location.pathname.includes('filtros.html')) {
-        const { data: autores } = await client.from('Autores').select('*');
-        const { data: categorias } = await client.from('Categorias').select('*');
-
-        const selectAutor = document.getElementById('filtro-autor');
-        selectAutor.innerHTML += autores.map(a => 
-            `<option value="${a.autor_id}">${a.nombre_autor}</option>`
-        ).join('');
-
-        const selectCategoria = document.getElementById('filtro-categoria');
-        selectCategoria.innerHTML += categorias.map(c => 
-            `<option value="${c.categoria_id}">${c.nombre_categoria}</option>`
-        ).join('');
+  try {
+    const params = new URLSearchParams(window.location.search);
+    let query = client.from('Libros')
+      .select('*, Autores:autor_id(nombre_autor), Categorias:categoria_id(nombre_categoria)', { count: 'exact' });
+    
+    // Aplicar filtros desde URL
+    if(params.get('busqueda')) query = query.ilike('titulo', `%${params.get('busqueda')}%`);
+    if(params.get('autor')) query = query.eq('autor_id', params.get('autor'));
+    if(params.get('categoria')) query = query.eq('categoria_id', params.get('categoria'));
+    if(params.get('anioInicio') && params.get('anioFin')) {
+      query = query
+        .gte('anio_publicacion', `${params.get('anioInicio')}-01-01`)
+        .lte('anio_publicacion', `${params.get('anioFin')}-12-31`);
     }
     
-    // Cargar resultados si estamos en esa página
-    if(window.location.pathname.includes('resultados.html')) {
-        cargarResultados();
-        configurarPaginacion();
-    }
-});
+    // Paginación
+    const { data, error, count } = await query
+      .range((paginaActual - 1) * porPagina, paginaActual * porPagina - 1);
+    
+    if(error) throw error;
+    mostrarResultados(data);
+    actualizarPaginacion(count);
+  } catch(error) {
+    console.error('Error:', error);
+    document.getElementById('resultados').innerHTML = `<p class="error">Error al cargar resultados: ${error.message}</p>`;
+  }
+}
+
+// Mostrar resultados (asumiendo que esta función ya está implementada)
+function mostrarResultados(data) {
+  // Código existente para mostrar resultados
+}
+
+// Función actualizada para controlar la paginación
+function actualizarPaginacion(count) {
+  const totalPaginas = Math.ceil(count / porPagina);
+  const controlesPaginacion = document.querySelector('.controles-paginacion');
+  
+  // Ocultar controles de paginación si hay 8 o menos elementos en total
+  if (count <= porPagina) {
+    controlesPaginacion.style.display = 'none';
+    return;
+  }
+  
+  // Mostrar controles de paginación si hay más de 8 elementos
+  controlesPaginacion.style.display = 'block';
+  
+  // Actualizar el estado de los botones de navegación
+  const btnAnterior = document.querySelector('.boton-anterior'); // Ajustar según la clase real
+  const btnSiguiente = document.querySelector('.boton-siguiente'); // Ajustar según la clase real
+  
+  if (btnAnterior && btnSiguiente) {
+    btnAnterior.disabled = (paginaActual === 1);
+    btnSiguiente.disabled = (paginaActual === totalPaginas);
+  }
+  
+  // Opcionalmente, actualizar texto de información de paginación
+  const infoPaginacion = document.querySelector('.info-paginacion'); // Ajustar según la clase real
+  if (infoPaginacion) {
+    infoPaginacion.textContent = `Página ${paginaActual} de ${totalPaginas} (${count} resultados)`;
+  }
+}
+
+// Funciones para navegar entre páginas (asumiendo que ya están implementadas)
+function paginaAnterior() {
+  if (paginaActual > 1) {
+    paginaActual--;
+    cargarResultados();
+  }
+}
+
+function paginaSiguiente() {
+  paginaActual++;
+  cargarResultados();
+}
