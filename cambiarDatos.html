@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cambiar Datos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <h3>Cambiar Datos de Usuario</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="cambiarDatosForm">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nuevo Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label">Nueva Contraseña</label>
+                                <input type="password" class="form-control" id="contrasena" name="contrasena" required minlength="6">
+                                <div class="form-text">Mínimo 6 caracteres.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmarContrasena" class="form-label">Confirmar Contraseña</label>
+                                <input type="password" class="form-control" id="confirmarContrasena" name="confirmarContrasena" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                        </form>
+                        <div id="mensaje" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Script externo para actualizar datos -->
+    <script src="cambiarDatos.js"></script>
+</body>
+</html>

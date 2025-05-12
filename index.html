@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Digital - Login</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .background {
+            background-image: url('img/fondo.png');
+            height: 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 40px 32px 28px 32px;
+            border-radius: 12px;
+            box-shadow: 0 0 18px rgba(0,0,0,0.18);
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-box h1 {
+            margin-bottom: 28px;
+            font-size: 2em;
+            color: #007BFF;
+            letter-spacing: 1px;
+            text-align: center;
+            width: 100%;
+        }
+        .login-box input[type="email"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 11px;
+            margin: 10px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box;
+            display: block;
+        }
+        .login-actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-actions .main-btn {
+            width: 100%;
+            padding: 11px 0;
+            border: none;
+            border-radius: 6px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background 0.2s;
+        }
+        .login-actions .main-btn:hover {
+            background-color: #0056b3;
+        }
+        .signup-row {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-size: 0.98em;
+            color: #333;
+        }
+        .signup-row span {
+            white-space: nowrap;
+        }
+        .signup-row .signup-btn {
+            padding: 7px 18px;
+            border: none;
+            border-radius: 6px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .signup-row .signup-btn:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="login-box">
+            <h1>Biblioteca Digital</h1>
+            <form id="login-form" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+                <input id="email" type="email" placeholder="Correo" required>
+                <input id="password" type="password" placeholder="Contraseña" required>
+                <div class="login-actions">
+                    <button class="main-btn" type="submit">Iniciar sesión</button>
+                    <div class="signup-row">
+                        <span>Si no tienes cuenta aún, crea una aquí</span>
+                        <button class="signup-btn" type="button" id="crear-cuenta-btn">Crear cuenta</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Supabase y tu script personalizado -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        document.getElementById('crear-cuenta-btn').addEventListener('click', function() {
+            window.location.href = "registro.html";
+        });
+    </script>
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - Biblioteca Digital</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .background {
+            background-image: url('img/fondo.png');
+            height: 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .register-box {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 40px 32px 28px 32px;
+            border-radius: 12px;
+            box-shadow: 0 0 18px rgba(0,0,0,0.18);
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .register-box h1 {
+            margin-bottom: 28px;
+            font-size: 2em;
+            color: #28a745;
+            letter-spacing: 1px;
+            text-align: center;
+            width: 100%;
+        }
+        .register-box input[type="text"],
+        .register-box input[type="email"],
+        .register-box input[type="password"] {
+            width: 100%;
+            padding: 11px;
+            margin: 10px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box;
+            display: block;
+        }
+        .register-actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .register-actions .main-btn {
+            width: 100%;
+            padding: 11px 0;
+            border: none;
+            border-radius: 6px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background 0.2s;
+        }
+        .register-actions .main-btn:hover {
+            background-color: #1e7e34;
+        }
+        .back-row {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.98em;
+            color: #333;
+        }
+        .back-row .back-btn {
+            padding: 7px 18px;
+            border: none;
+            border-radius: 6px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .back-row .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="register-box">
+            <h1>Crear Cuenta</h1>
+            <form id="registro-form" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+                <!-- Si no deseas el campo nombre, puedes quitar la siguiente línea -->
+                <input id="nombre" type="text" placeholder="Nombre completo" required>
+                <input id="email" type="email" placeholder="Correo" required>
+                <input id="password" type="password" placeholder="Contraseña" required>
+                <input id="confirm-password" type="password" placeholder="Confirmar contraseña" required>
+                <div class="register-actions">
+                    <button class="main-btn" type="submit">Crear cuenta</button>
+                    <div class="back-row">
+                        <span>¿Ya tienes cuenta?</span>
+                        <button class="back-btn" type="button" id="volver-login-btn">Volver al login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Supabase y tu script personalizado -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        document.getElementById('volver-login-btn').addEventListener('click', function() {
+            window.location.href = "index.html";
+        });
+    </script>
+    <script src="registro.js"></script>
+</body>
+</html>

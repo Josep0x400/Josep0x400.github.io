@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Digital</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    /* Puedes mover este CSS a tu archivo styles.css si lo prefieres */
+    .usuario-menu {
+        position: fixed;
+        top: 18px;
+        right: 28px;
+        z-index: 100;
+    }
+    .usuario-menu img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 1.5px solid #007BFF;
+        background: #fff;
+    }
+    .menu-desplegable {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 38px;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        min-width: 180px;
+        padding: 12px 0 6px 0;
+        text-align: center;
+    }
+    .menu-desplegable .nombre-usuario {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #007BFF;
+    }
+    .menu-desplegable button {
+        display: block;
+        width: 90%;
+        margin: 8px auto;
+        padding: 8px 0;
+        border: none;
+        border-radius: 6px;
+        background: #007BFF;
+        color: #fff;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .menu-desplegable button:hover {
+        background: #0056b3;
+    }
+    </style>
+</head>
+<body>
+    <!-- Menú usuario arriba a la derecha -->
+    <div class="usuario-menu" id="usuario-menu">
+        <img src="img/usuario.png" id="icono-usuario" alt="Usuario">
+        <div class="menu-desplegable" id="menu-desplegable">
+            <div class="nombre-usuario" id="nombre-usuario">Usuario</div>
+            <button onclick="irFavoritos()">Libros favoritos</button>
+            <button onclick="cambiarDatos()">Cambiar datos</button>
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </div>
+
+    <a href="filtros.html" class="boton-flotante">🔍 Filtros Avanzados</a>
+    
+    <div class="contenedor-principal">
+        <h1>Biblioteca Digital</h1>
+        
+        <div class="barra-busqueda">
+            <input type="text" id="busqueda-rapida" placeholder="Buscar por título...">
+            <button onclick="buscarRapida()">Buscar</button>
+        </div>
+
+        <div class="imagen-principal">
+            <img src="img/biblioteca.png" alt="Biblioteca Digital">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    // Supabase config
+    const supabaseUrl = 'https://fzqiuqsnjlxodozrmtvp.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6cWl1cXNuamx4b2RvenJtdHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyNjA5NTYsImV4cCI6MjA2MDgzNjk1Nn0.ATYMIUqudjT1DPTSikIO_UFif00PDaOhUKUAqDOkc3w';
+    const { createClient } = supabase;
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Mostrar/ocultar menú
+        const iconoUsuario = document.getElementById('icono-usuario');
+        const menuDesplegable = document.getElementById('menu-desplegable');
+        iconoUsuario.addEventListener('click', function(event) {
+            event.stopPropagation();
+            menuDesplegable.style.display = menuDesplegable.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', function(event) {
+            if (!menuDesplegable.contains(event.target) && event.target !== iconoUsuario) {
+                menuDesplegable.style.display = 'none';
+            }
+        });
+
+        // Mostrar el nombre del usuario logeado (usando sessionStorage)
+        const nombre = sessionStorage.getItem('nombreSocio');
+        if (nombre) {
+            document.getElementById('nombre-usuario').textContent = nombre;
+        } else {
+            // Si no está en sessionStorage, podrías obtenerlo de la base de datos si tienes el email guardado
+            const email = sessionStorage.getItem('emailSocio');
+            if (email) {
+                const { data, error } = await supabaseClient
+                    .from('socios')
+                    .select('nombre_socio')
+                    .eq('email', email)
+                    .single();
+                if (data) {
+                    document.getElementById('nombre-usuario').textContent = data.nombre_socio;
+                }
+            }
+        }
+    });
+
+    // Funciones de los botones del menú
+    function irFavoritos() {
+        window.location.href = 'favoritos.html';
+    }
+    function cambiarDatos() {
+        window.location.href = 'cambiarDatos.html';
+    }
+    function cerrarSesion() {
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+    }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
