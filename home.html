@@ -5,59 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Digital</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-    .usuario-menu {
-        position: fixed;
-        top: 18px;
-        right: 28px;
-        z-index: 100;
-    }
-    .usuario-menu img {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        cursor: pointer;
-        border: 1.5px solid #007BFF;
-        background: #fff;
-    }
-    .menu-desplegable {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: 38px;
-        background: #fff;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-        min-width: 180px;
-        padding: 12px 0 6px 0;
-        text-align: center;
-    }
-    .menu-desplegable .nombre-usuario {
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #007BFF;
-    }
-    .menu-desplegable button {
-        display: block;
-        width: 90%;
-        margin: 8px auto;
-        padding: 8px 0;
-        border: none;
-        border-radius: 6px;
-        background: #007BFF;
-        color: #fff;
-        font-size: 1em;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .menu-desplegable button:hover {
-        background: #0056b3;
-    }
-    </style>
 </head>
 <body>
-    <!-- Menú usuario arriba a la derecha -->
     <div class="usuario-menu" id="usuario-menu">
         <img src="usuario.png" id="icono-usuario" alt="Usuario">
         <div class="menu-desplegable" id="menu-desplegable">
