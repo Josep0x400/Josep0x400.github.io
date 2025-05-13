@@ -4,9 +4,19 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const { createClient } = supabase;
 const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-window.onload = async function() {
+const LIBROS_POR_PAGINA = 6;
+let paginaActual = 1;
+let totalPaginas = 1;
+let totalLibros = 0;
+
+// Ejecuta la carga inicial
+window.onload = function() {
+    cargarResultados();
+};
+
+async function cargarResultados() {
     const params = new URLSearchParams(window.location.search);
-    const busqueda = params.get('busqueda'); // <-- NUEVO: lee el parámetro de búsqueda
+    const busqueda = params.get('busqueda');
     const autorId = params.get('autor');
     const categoriaId = params.get('categoria');
     const anioInicio = params.get('anioInicio');
@@ -20,19 +30,32 @@ window.onload = async function() {
             anio_publicacion,
             Autores (nombre_autor),
             Categorias (nombre_categoria)
-        `)
+        `, { count: 'exact' }) // <-- IMPORTANTE: pedir el total
         .order('anio_publicacion', { ascending: false });
 
-    // Aplica el filtro de búsqueda si existe
     if (busqueda) query = query.ilike('titulo', `%${busqueda}%`);
     if (autorId) query = query.eq('autor_id', autorId);
     if (categoriaId) query = query.eq('categoria_id', categoriaId);
     if (anioInicio) query = query.gte('anio_publicacion', anioInicio);
     if (anioFin) query = query.lte('anio_publicacion', anioFin);
 
-    const { data } = await query;
+    // Paginación: calcula rango de libros a mostrar
+    const desde = (paginaActual - 1) * LIBROS_POR_PAGINA;
+    const hasta = desde + LIBROS_POR_PAGINA - 1;
+
+    const { data, count, error } = await query.range(desde, hasta);
+
+    if (error) {
+        document.getElementById('resultados').innerHTML = '<p>Error al cargar resultados.</p>';
+        return;
+    }
+
+    totalLibros = count || 0;
+    totalPaginas = Math.ceil(totalLibros / LIBROS_POR_PAGINA);
+
     mostrarResultados(data);
-};
+    mostrarPaginacion();
+}
 
 function mostrarResultados(libros) {
     const div = document.getElementById('resultados');
@@ -55,3 +78,35 @@ function mostrarResultados(libros) {
     html += '</div>';
     div.innerHTML = html;
 }
+
+function mostrarPaginacion() {
+    const pagDiv = document.getElementById('paginacion');
+    if (totalPaginas <= 1) {
+        pagDiv.innerHTML = '';
+        return;
+    }
+
+    let html = `<div class="controles-paginacion">`;
+
+    html += `<button ${paginaActual === 1 ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual - 1})">Anterior</button>`;
+
+    // Números de página (máximo 7 botones)
+    let inicio = Math.max(1, paginaActual - 3);
+    let fin = Math.min(totalPaginas, paginaActual + 3);
+    for (let i = inicio; i <= fin; i++) {
+        html += `<button ${i === paginaActual ? 'disabled style="font-weight:bold;"' : ''} onclick="cambiarPagina(${i})">${i}</button>`;
+    }
+
+    html += `<button ${paginaActual === totalPaginas ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual + 1})">Siguiente</button>`;
+    html += `<div style="margin-top:8px; font-size:0.95em;">Página ${paginaActual} de ${totalPaginas} &mdash; Mostrando ${(paginaActual-1)*LIBROS_POR_PAGINA+1} a ${Math.min(paginaActual*LIBROS_POR_PAGINA, totalLibros)} de ${totalLibros} libros</div>`;
+    html += `</div>`;
+
+    pagDiv.innerHTML = html;
+}
+
+// Cambia de página y recarga resultados
+window.cambiarPagina = function(nuevaPagina) {
+    if (nuevaPagina < 1 || nuevaPagina > totalPaginas || nuevaPagina === paginaActual) return;
+    paginaActual = nuevaPagina;
+    cargarResultados();
+};
