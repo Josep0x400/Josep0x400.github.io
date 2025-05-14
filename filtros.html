@@ -3,35 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <title>Filtros de Búsqueda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #f4f6fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .filtros-contenedor {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 16px rgba(33,150,243,0.08);
+      padding: 2.5rem 2rem 2rem 2rem;
+    }
+    .filtros-contenedor h2 {
+      color: #1976d2;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-weight: 700;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      color: #333;
+    }
+    .campo-filtro {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #2196f3;
+      border-radius: 24px;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      box-sizing: border-box;
+      background: #fff;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .campo-filtro:focus {
+      border-color: #1976d2;
+      outline: none;
+    }
+    .rango-anios {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .botones {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+    .boton-azul {
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .boton-azul:hover {
+      background: #1565c0;
+    }
+    .boton-gris {
+      background: #e0e0e0;
+      color: #333;
+      border: none;
+      border-radius: 24px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .boton-gris:hover {
+      background: #bdbdbd;
+    }
+  </style>
 </head>
 <body>
-  <h2>Filtros de Búsqueda</h2>
+  <div class="filtros-contenedor">
+    <h2>Filtros de Búsqueda</h2>
+    <form id="form-filtros" action="resultados.html" method="GET" autocomplete="off">
+      <label for="filtro-autor">Autor:</label>
+      <select id="filtro-autor" name="autor" class="campo-filtro">
+        <option value="">Todos los autores</option>
+      </select>
 
-  <form id="form-filtros" action="resultados.html" method="GET">
-    <label for="filtro-autor">Autor:</label>
-    <select id="filtro-autor" name="autor">
-      <option value="">Todos los autores</option>
-    </select>
-    <br><br>
+      <label for="filtro-categoria">Categoría:</label>
+      <select id="filtro-categoria" name="categoria" class="campo-filtro">
+        <option value="">Todas las categorías</option>
+      </select>
 
-    <label for="filtro-categoria">Categoría:</label>
-    <select id="filtro-categoria" name="categoria">
-      <option value="">Todas las categorías</option>
-    </select>
-    <br><br>
+      <label>Rango de años:</label>
+      <div class="rango-anios">
+        <select id="filtro-anio-inicio" name="anioInicio" class="campo-filtro">
+          <option value="">Año inicio</option>
+        </select>
+        <select id="filtro-anio-fin" name="anioFin" class="campo-filtro">
+          <option value="">Año fin</option>
+        </select>
+      </div>
 
-    <label>Rango de años:</label>
-    <select id="filtro-anio-inicio" name="anioInicio">
-      <option value="">Desde</option>
-    </select>
-    <select id="filtro-anio-fin" name="anioFin">
-      <option value="">Hasta</option>
-    </select>
-    <br><br>
-
-    <button type="submit">Ver Resultados</button>
-    <button type="button" onclick="window.location.href='index.html'">Volver al inicio</button>
-  </form>
+      <div class="botones">
+        <button type="submit" class="boton-azul">Ver Resultados</button>
+        <button type="button" class="boton-gris" onclick="window.location.href='index.html'">Volver al inicio</button>
+      </div>
+    </form>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="filtros.js"></script>
