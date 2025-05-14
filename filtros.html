@@ -1,61 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filtros de Búsqueda</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Filtros de Búsqueda</title>
 </head>
 <body>
-    <div class="contenedor-filtros">
-        <h1>Filtros de Búsqueda</h1>
-        <div class="card-filtros">
-            <div class="grupo-filtro">
-                <label>Autor:</label>
-                <select id="filtro-autor">
-                    <option value="">Todos los autores</option>
-                </select>
-            </div>
-            <div class="grupo-filtro">
-                <label>Categoría:</label>
-                <select id="filtro-categoria">
-                    <option value="">Todas las categorías</option>
-                </select>
-            </div>
-            <div class="grupo-filtro">
-                <label>Rango de años:</label>
-                <div class="rango-anios">
-                    <input type="number" id="anio-inicio" placeholder="Año inicio">
-                    <input type="number" id="anio-fin" placeholder="Año fin">
-                </div>
-            </div>
-            <button class="boton-primario" id="ver-resultados">Ver Resultados</button>
-            <a href="home.html" class="boton-secundario">Volver al inicio</a>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="filtros.js"></script>
-    <script>
-        // SOLO para cargar autores y categorías en los selects
-        window.onload = function() {
-            cargarAutores();
-            cargarCategorias();
-        };
+  <h2>Filtros de Búsqueda</h2>
 
-        document.getElementById('ver-resultados').onclick = function() {
-            const autorId = document.getElementById('filtro-autor').value;
-            const categoriaId = document.getElementById('filtro-categoria').value;
-            const anioInicio = document.getElementById('anio-inicio').value;
-            const anioFin = document.getElementById('anio-fin').value;
+  <form id="form-filtros" action="resultados.html" method="GET">
+    <label for="filtro-autor">Autor:</label>
+    <select id="filtro-autor" name="autor">
+      <option value="">Todos los autores</option>
+    </select>
+    <br><br>
 
-            const params = new URLSearchParams();
-            if (autorId) params.append('autor', autorId);
-            if (categoriaId) params.append('categoria', categoriaId);
-            if (anioInicio) params.append('anioInicio', anioInicio);
-            if (anioFin) params.append('anioFin', anioFin);
+    <label for="filtro-categoria">Categoría:</label>
+    <select id="filtro-categoria" name="categoria">
+      <option value="">Todas las categorías</option>
+    </select>
+    <br><br>
 
-            window.location.href = `resultados.html?${params.toString()}`;
-        };
-    </script>
+    <label>Rango de años:</label>
+    <select id="filtro-anio-inicio" name="anioInicio">
+      <option value="">Desde</option>
+    </select>
+    <select id="filtro-anio-fin" name="anioFin">
+      <option value="">Hasta</option>
+    </select>
+    <br><br>
+
+    <button type="submit">Ver Resultados</button>
+    <button type="button" onclick="window.location.href='index.html'">Volver al inicio</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="filtros.js"></script>
 </body>
 </html>
